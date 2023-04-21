@@ -12,7 +12,7 @@ public class Monster : MonoBehaviour
 		rb = GetComponent<Rigidbody>();
 	}
 
-	private void Update () 
+	private void FixedUpdate () 
 	{
 		// if (m_moveTarget == null)
 		// 	return;
