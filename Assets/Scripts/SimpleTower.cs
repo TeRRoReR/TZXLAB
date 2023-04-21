@@ -16,7 +16,7 @@ public class SimpleTower : TowerController
         	{
 				var projectile = Instantiate(m_projectilePrefab, transform.position + Vector3.up * 1.5f, Quaternion.identity);
 				var projectileBeh = projectile.GetComponent<GuidedProjectile> ();
-				projectileBeh.m_target = target;
+				projectileBeh.Init(target);
 
 				m_startTime = Time.time;
 			}

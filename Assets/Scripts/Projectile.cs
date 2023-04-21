@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] private float m_speed = 20f;
+    [SerializeField] protected float m_speed = 20f;
     [SerializeField] private int m_damage = 10;
 
+    protected GameObject m_target;
     private void Update()
     {
         Move();
@@ -27,8 +28,8 @@ public class Projectile : MonoBehaviour
 		Destroy(gameObject);
 	}
 
-    public void Init()
+    public void Init(GameObject target)
     {
-        
+        m_target = target;
     }
 }
