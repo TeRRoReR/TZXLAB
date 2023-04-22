@@ -10,7 +10,7 @@ public class CannonTower : TowerController
         Vector3 targetPosition = target.transform.position;
         Vector3 shooterPosition = m_shootPoint.position;
         float distanceToTarget = Vector3.Distance(targetPosition, shooterPosition);
-        float timeToHit = distanceToTarget / 20f;
+        float timeToHit = distanceToTarget / m_speed;
         Vector3 futureTargetPosition = targetPosition + target.GetComponent<Rigidbody>().velocity * timeToHit;
         Vector3 directionToTarget = futureTargetPosition - shooterPosition;
         Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
