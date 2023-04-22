@@ -9,7 +9,10 @@ public class CannonTower : TowerController
     {
         Vector3 targetPosition = target.transform.position;
         Vector3 shooterPosition = m_shootPoint.position;
-        float distanceToTarget = Vector3.Distance(targetPosition, shooterPosition);
+        //float distanceToTarget = Vector3.SqrMagnitude(shooterPosition - targetPosition);
+        //float dist = Vector3.Distance(targetPosition, shooterPosition);
+        Vector3 displacement = targetPosition - shooterPosition;
+        float distanceToTarget = displacement.magnitude;
         float timeToHit = distanceToTarget / m_speed;
         Vector3 futureTargetPosition = targetPosition + target.GetComponent<Rigidbody>().velocity * timeToHit;
         Vector3 directionToTarget = futureTargetPosition - shooterPosition;
