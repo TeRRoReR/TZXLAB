@@ -8,12 +8,15 @@ public class Spawner : MonoBehaviour
 	[SerializeField] private GameObject m_prefabMonster;
 
 	private float m_lastSpawn = -1;
-
+	private void Start()
+	{
+		SpawnEnemy();
+	}
 	private void Update () 
 	{
 		if (Time.time > m_lastSpawn + m_interval) 
 		{
-			SpawnEnemy();
+			//SpawnEnemy();
 			m_lastSpawn = Time.time;
 		}
 	}
