@@ -33,7 +33,7 @@ public class CannonTower : TowerController
     //     Quaternion newRotation = Quaternion.Lerp(currentRotation, targetRotation, Time.deltaTime * m_speedRotation);
     //     m_muzzle.transform.localRotation = newRotation;
     // }
-//     private float currentTime = 0f;
+
     public override void Rotation(GameObject target)
     {
         Vector3 targetDir = target.transform.position - m_shootPoint.transform.position;
@@ -41,9 +41,8 @@ public class CannonTower : TowerController
         float angle = Vector3.Angle(targetDir, transform.forward);
         float timeToTarget = targetDir.magnitude / m_speedProjectile;
         float timeToIntersection = GetTimeToIntersection(targetDir, targetVelocity, m_speedProjectile);
-        Vector3 aimPoint = timeToIntersection <= timeToTarget ? 
-                        target.transform.position + targetVelocity * timeToIntersection :
-                        target.transform.position + targetVelocity * timeToTarget;
+        Vector3 aimPoint = target.transform.position + targetVelocity * timeToIntersection;
+        Debug.Log(aimPoint);
         Vector3 aimDirection = aimPoint - transform.position;
         transform.rotation = Quaternion.LookRotation(aimDirection);
     }
@@ -61,7 +60,7 @@ public class CannonTower : TowerController
 
         float t1 = (-b + Mathf.Sqrt(discriminant)) / (2 * a);
         float t2 = (-b - Mathf.Sqrt(discriminant)) / (2 * a);
-        Debug.Log($"{t1}......{t2}");
+
         if (t1 < 0 && t2 < 0)
         {
             return -1;
