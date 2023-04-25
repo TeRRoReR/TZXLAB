@@ -35,9 +35,9 @@ public class CannonTower : TowerController
 
     private float GetTimeToIntersection(Vector3 targetDir, Vector3 targetVelocity, float bulletSpeed)
     {
-        float a = Vector3.Dot(targetVelocity, targetVelocity) - bulletSpeed * bulletSpeed;
-        float b = 2 * Vector3.Dot(targetVelocity, targetDir);
-        float c = Vector3.Dot(targetDir, targetDir);
+        float a = (targetVelocity.x * targetVelocity.x + targetVelocity.y * targetVelocity.y + targetVelocity.z * targetVelocity.z) - bulletSpeed * bulletSpeed;
+        float b = 2 * (targetVelocity.x * targetDir.x + targetVelocity.y * targetDir.y + targetVelocity.z * targetDir.z);
+        float c = targetDir.x * targetDir.x + targetDir.y * targetDir.y + targetDir.z * targetDir.z;
         float discriminant = b * b - 4 * a * c;
         if (discriminant < 0)
         {
@@ -45,8 +45,9 @@ public class CannonTower : TowerController
         }
 
         float twoA = 2 * a;
-        float t1 = (-b + Mathf.Pow(discriminant, 0.5f)) / twoA;
-        float t2 = (-b - Mathf.Pow(discriminant, 0.5f)) / twoA;
+        float sqrtDiscriminant = Mathf.Pow(discriminant, 0.5f);
+        float t1 = (-b + sqrtDiscriminant) / twoA;
+        float t2 = (-b - sqrtDiscriminant) / twoA;
 
         if (t1 < 0 && t2 < 0)
         {
