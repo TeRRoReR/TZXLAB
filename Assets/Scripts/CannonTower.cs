@@ -3,8 +3,8 @@ using System.Collections;
 
 public class CannonTower : TowerController 
 {
+    [SerializeField] private float m_speedRotation = 0.5f;
 	[SerializeField] private GameObject m_muzzle;
-	[SerializeField] private float m_speedRotation = 0.5f;
 
     public override void Rotation(GameObject target)
     {
@@ -13,21 +13,24 @@ public class CannonTower : TowerController
         float timeToIntersection = GetTimeToIntersection(targetDir, targetVelocity, m_speedProjectile);
         Vector3 aimPoint = target.transform.position + targetVelocity * timeToIntersection;
         Vector3 aimDirection = aimPoint - m_shootPoint.transform.position;
-        Quaternion lookLocalRotation = Quaternion.LookRotation(aimDirection);
-        float angleX = lookLocalRotation.x;
-        RotationMuzzle(angleX);
-        aimDirection = new Vector3(aimDirection.x, 0f, aimDirection.z);
-        Quaternion targetRotation = Quaternion.LookRotation(aimDirection);
-        Quaternion towerRotation = Quaternion.RotateTowards(transform.rotation, targetRotation, m_speedRotation * Time.deltaTime);
-        transform.rotation = towerRotation;
+        RotationMTower(aimDirection);
+        RotationMuzzle(aimDirection);
     }
 
-    private void RotationMuzzle(float angleX)
+    private void RotationMuzzle(Vector3 dir)
     {
-        Quaternion targetRotation = Quaternion.Euler(angleX * 100f, 0f, 0f);
-        Quaternion currentRotation = m_muzzle.transform.localRotation;
-        Quaternion newRotation = Quaternion.Lerp(m_muzzle.transform.localRotation, targetRotation, Time.deltaTime * m_speedRotation);
-        m_muzzle.transform.localRotation = newRotation;
+        Vector3 targetDirWithoutY = new Vector3(dir.x, 0f, dir.z).normalized;
+        float verticalAngle = Vector3.Angle(targetDirWithoutY, dir);
+        Quaternion verticalRotation = Quaternion.Euler(verticalAngle, 0f, 0f);
+        m_muzzle.transform.localRotation = Quaternion.RotateTowards(m_muzzle.transform.localRotation, verticalRotation, Time.deltaTime * m_speedRotation);
+    }
+
+    private void RotationMTower(Vector3 dir)
+    {
+        Vector3 targetDirWithoutX = new Vector3(dir.x, 0f, dir.z);
+        Quaternion targetRotation = Quaternion.LookRotation(targetDirWithoutX);
+        Quaternion towerRotation = Quaternion.RotateTowards(transform.rotation, targetRotation, m_speedRotation * Time.deltaTime);
+        transform.rotation = towerRotation;
     }
 
     private float GetTimeToIntersection(Vector3 targetDir, Vector3 targetVelocity, float bulletSpeed)
