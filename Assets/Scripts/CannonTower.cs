@@ -13,7 +13,7 @@ public class CannonTower : TowerController
         float timeToIntersection = GetTimeToIntersection(targetDir, targetVelocity, m_speedProjectile);
         Vector3 aimPoint = target.transform.position + targetVelocity * timeToIntersection;
         Vector3 aimDirection = aimPoint - m_shootPoint.transform.position;
-        RotationMTower(aimDirection);
+        RotationTower(aimDirection);
         RotationMuzzle(aimDirection);
     }
 
@@ -25,7 +25,7 @@ public class CannonTower : TowerController
         m_muzzle.transform.localRotation = Quaternion.RotateTowards(m_muzzle.transform.localRotation, verticalRotation, Time.deltaTime * m_speedRotation);
     }
 
-    private void RotationMTower(Vector3 dir)
+    private void RotationTower(Vector3 dir)
     {
         Vector3 targetDirWithoutX = new Vector3(dir.x, 0f, dir.z);
         Quaternion targetRotation = Quaternion.LookRotation(targetDirWithoutX);
