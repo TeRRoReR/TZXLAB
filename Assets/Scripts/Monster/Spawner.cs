@@ -12,13 +12,12 @@ public class Spawner : MonoBehaviour
 	private void Start()
 	{
 		objectPool.Initialize();
-		SpawnEnemy();
 	}
 	private void Update () 
 	{
 		if (Time.time > m_lastSpawn + m_interval) 
 		{
-			
+			SpawnEnemy();
 			m_lastSpawn = Time.time;
 		}
 	}
