@@ -7,7 +7,10 @@ public class RotationComponent : MonoBehaviour
     [SerializeField] private GameObject m_muzzle;
     [SerializeField] private float m_speedRotation = 20f;
     private Transform m_shootPoint;
-
+    private void Awake()
+    {
+        m_shootPoint = transform;
+    }
     public void Init(Transform shootPoint)
     {
         m_shootPoint = shootPoint;
@@ -27,7 +30,7 @@ public class RotationComponent : MonoBehaviour
         Vector3 targetDirWithoutY = new Vector3(dir.x, 0f, dir.z).normalized;
         float verticalAngle = Vector3.Angle(targetDirWithoutY, dir);
         Quaternion verticalRotation = Quaternion.Euler(verticalAngle, 0f, 0f);
-        m_muzzle.transform.localRotation = Quaternion.RotateTowards(m_muzzle.transform.localRotation, verticalRotation, Time.deltaTime * m_speedRotation);
+        m_muzzle.transform.localRotation = Quaternion.RotateTowards(m_muzzle.transform.localRotation, verticalRotation, m_speedRotation * Time.deltaTime);
     }
 
     public void RotationTower(Vector3 dir)

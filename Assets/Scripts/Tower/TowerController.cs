@@ -7,7 +7,6 @@ public abstract class TowerController : MonoBehaviour
     [SerializeField] protected float m_delay = 0.5f;
     [SerializeField] protected float m_range = 4f;
     [SerializeField] protected float m_speedProjectile = 20f;
-    [SerializeField] private int m_damageProjectile = 10;
     [SerializeField] protected GameObject m_projectilePrefab;
 	[SerializeField] protected Transform m_shootPoint;
     [SerializeField] private LayerMask m_layerMask;
@@ -24,12 +23,12 @@ public abstract class TowerController : MonoBehaviour
         {
             var projectile = Instantiate(m_projectilePrefab, m_shootPoint.position, m_shootPoint.rotation);
             var projectileBeh = projectile.GetComponent<IProjectile>(); 
-            projectileBeh.Init(target, m_speedProjectile, m_damageProjectile);
+            projectileBeh.Init(target, m_speedProjectile);
             m_startTime = Time.time;
         }
     }
 
-    protected abstract void Rotation(GameObject target);
+    public virtual void Rotation(GameObject target){}
 
     private void Update()
     {

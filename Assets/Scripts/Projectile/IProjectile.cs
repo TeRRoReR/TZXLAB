@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IProjectile
 {
-    void Init(GameObject target, float speed, int damage);
+    void Init(GameObject target, float speed);
 }

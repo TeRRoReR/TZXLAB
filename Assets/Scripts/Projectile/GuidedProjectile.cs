@@ -10,16 +10,13 @@ public class GuidedProjectile : Projectile , IProjectile
 			return;
 		}
         var translation = m_target.transform.position - transform.position;
-		// if (translation.magnitude > m_speed) {
-			translation = translation.normalized * m_speed * Time.deltaTime;
-		//}
+		translation = translation.normalized * m_speed * Time.deltaTime;
 		transform.Translate (translation);
     }
 
-	public void Init(GameObject target, float speed, int damage)
+	public void Init(GameObject target, float speed)
 	{
 		m_target = target;
 		m_speed = speed;
-		m_damage = damage;
 	}
 }
