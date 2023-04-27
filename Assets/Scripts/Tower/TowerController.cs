@@ -5,11 +5,10 @@ using UnityEngine;
 public abstract class TowerController : MonoBehaviour
 {
     [SerializeField] protected float m_delay = 0.5f;
-    //[SerializeField] protected float m_range = 4f;
     [SerializeField] protected float m_speedProjectile = 20f;
     [SerializeField] protected GameObject m_projectilePrefab;
 	[SerializeField] protected Transform m_shootPoint;
-    //[SerializeField] private LayerMask m_layerMask;
+
     protected SearchComponent m_search;
 
     protected float m_startTime = 0f;

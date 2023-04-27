@@ -4,8 +4,10 @@ using System.Collections;
 public class CannonTower : TowerController 
 {
     private RotationComponent m_rotation;
-    private void Awake()
+
+    protected virtual void Start()
     {
+        base.Start();
         m_rotation = GetComponent<RotationComponent>();
         m_rotation.Init(m_shootPoint);
     }
