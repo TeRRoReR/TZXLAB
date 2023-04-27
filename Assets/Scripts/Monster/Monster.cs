@@ -14,18 +14,6 @@ public class Monster : MonoBehaviour
 
 	private void FixedUpdate () 
 	{
-		// if (m_moveTarget == null)
-		// 	return;
-		
-		// if (Vector3.Distance (transform.position, m_moveTarget.transform.position) <= m_reachDistance) {
-		// 	Destroy (gameObject);
-		// 	return;
-		// }
-		// var translation = m_moveTarget.transform.position - transform.position;
-		// if (translation.magnitude > m_speed) {
-		// 	translation = translation.normalized * m_speed;
-		// }
-		// transform.Translate(translation * Time.deltaTime);
 		Vector3 direction = (m_moveTarget.transform.position - transform.position).normalized;
     	rb.velocity = direction * m_speed;
 	}

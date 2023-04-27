@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TowerController : MonoBehaviour
+public abstract class TowerController : MonoBehaviour
 {
     [SerializeField] protected float m_delay = 0.5f;
     [SerializeField] protected float m_range = 4f;
@@ -18,7 +18,7 @@ public class TowerController : MonoBehaviour
     {
         m_startTime = Time.time;
     }
-    public virtual void Shot(GameObject target)
+    private void Shot(GameObject target)
     {
         if (Time.time > m_startTime + m_delay)
         {
@@ -29,7 +29,7 @@ public class TowerController : MonoBehaviour
         }
     }
 
-    public virtual void Rotation(GameObject target){}
+    protected abstract void Rotation(GameObject target);
 
     private void Update()
     {

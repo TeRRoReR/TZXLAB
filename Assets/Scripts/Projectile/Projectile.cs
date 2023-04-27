@@ -27,9 +27,4 @@ public class Projectile : MonoBehaviour
 		}
 		Destroy(gameObject);
 	}
-
-    public void Init(GameObject target)
-    {
-        m_target = target;
-    }
 }

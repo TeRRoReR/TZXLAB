@@ -6,6 +6,9 @@ public class DestroyObjects : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        Destroy(other.gameObject);
+        if(other.gameObject.TryGetComponent<HealthComponent>(out HealthComponent health))
+		{
+			health.RemoveObject();
+		}
     }
 }

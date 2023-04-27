@@ -1,23 +1,28 @@
-﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class CannonTower : TowerController 
+public class RotationComponent : MonoBehaviour
 {
-    [SerializeField] private float m_speedRotation = 0.5f;
-	[SerializeField] private GameObject m_muzzle;
+    [SerializeField] private GameObject m_muzzle;
+    [SerializeField] private float m_speedRotation = 20f;
+    private Transform m_shootPoint;
 
-    public override void Rotation(GameObject target)
+    public void Init(Transform shootPoint)
+    {
+        m_shootPoint = shootPoint;
+    }
+
+    public Vector3 CalculateLead(GameObject target, float speedProjectile)
     {
         Vector3 targetDir = target.transform.position - m_shootPoint.transform.position;
         Vector3 targetVelocity = target.GetComponent<Rigidbody>().velocity;
-        float timeToIntersection = GetTimeToIntersection(targetDir, targetVelocity, m_speedProjectile);
+        float timeToIntersection = GetTimeToIntersection(targetDir, targetVelocity, speedProjectile);
         Vector3 aimPoint = target.transform.position + targetVelocity * timeToIntersection;
         Vector3 aimDirection = aimPoint - m_shootPoint.transform.position;
-        RotationTower(aimDirection);
-        RotationMuzzle(aimDirection);
+        return aimDirection;
     }
-
-    private void RotationMuzzle(Vector3 dir)
+    public void RotationMuzzle(Vector3 dir)
     {
         Vector3 targetDirWithoutY = new Vector3(dir.x, 0f, dir.z).normalized;
         float verticalAngle = Vector3.Angle(targetDirWithoutY, dir);
@@ -25,7 +30,7 @@ public class CannonTower : TowerController
         m_muzzle.transform.localRotation = Quaternion.RotateTowards(m_muzzle.transform.localRotation, verticalRotation, Time.deltaTime * m_speedRotation);
     }
 
-    private void RotationTower(Vector3 dir)
+    public void RotationTower(Vector3 dir)
     {
         Vector3 targetDirWithoutX = new Vector3(dir.x, 0f, dir.z);
         Quaternion targetRotation = Quaternion.LookRotation(targetDirWithoutX);
@@ -45,7 +50,7 @@ public class CannonTower : TowerController
         }
 
         float twoA = 2 * a;
-        float sqrtDiscriminant = Mathf.Pow(discriminant, 0.5f);
+        float sqrtDiscriminant = Mathf.Sqrt(discriminant);
         float t1 = (-b + sqrtDiscriminant) / twoA;
         float t2 = (-b - sqrtDiscriminant) / twoA;
 
@@ -66,5 +71,4 @@ public class CannonTower : TowerController
 
         return Mathf.Min(t1, t2);
     }
-
 }

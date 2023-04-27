@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HealthComponent : MonoBehaviour
 {
+    public event System.Action<GameObject> onDeath;
     [SerializeField] private int m_maxHP = 100;
     private int m_currentHP = 0;
     private void Awake()
@@ -16,7 +17,12 @@ public class HealthComponent : MonoBehaviour
         m_currentHP -= damage;
         if(m_currentHP <= 0)
         {
-            Destroy(gameObject);
+            RemoveObject();
         }
+    }
+
+    public void RemoveObject()
+    {
+        onDeath?.Invoke(gameObject);
     }
 }
