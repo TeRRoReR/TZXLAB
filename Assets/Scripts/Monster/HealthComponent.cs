@@ -12,6 +12,11 @@ public class HealthComponent : MonoBehaviour
         m_currentHP = m_maxHP;
     }
 
+    private void OnEnable()
+    {
+        m_currentHP = m_maxHP;
+    }
+
     public void TakeDamage(int damage)
     {
         m_currentHP -= damage;

@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public abstract class Projectile : MonoBehaviour
 {
+    [SerializeField] private int m_damage = 10;
     protected float m_speed = 20f;
-    [SerializeField] protected int m_damage = 10;
-
     protected GameObject m_target;
+
     private void Update()
     {
-        Move();
+        Move(); 
     }
 
     public virtual void Move()
@@ -24,7 +24,21 @@ public class Projectile : MonoBehaviour
 		if(other.gameObject.TryGetComponent<HealthComponent>(out HealthComponent health))
 		{
 			health.TakeDamage(m_damage);
+            health.onDeath -= RemoveObj;
 		}
-		Destroy(gameObject);
+        DestroyObject();
+		
 	}
+
+    protected void RemoveObj(GameObject target)
+    {
+        HealthComponent deathHandler = target.GetComponent<HealthComponent>();
+        deathHandler.onDeath -= RemoveObj;
+        DestroyObject();
+    }
+
+    protected void DestroyObject()
+    {
+        Destroy(gameObject);
+    }
 }

@@ -33,16 +33,12 @@ public abstract class TowerController : MonoBehaviour
 
     private void Update()
     {
-        // var monster = Physics.OverlapSphere(transform.position, m_range, m_layerMask);
-        // if(monster.Length > 0)
-        // { 
-            if(m_search.Current)
-            {
-                GameObject target = m_search.Current;
-                Rotation(target);
-                Shot(target);
-            }
-        //}
+        if(m_search.Current)
+        {
+            GameObject target = m_search.Current;
+            Rotation(target);
+            Shot(target);
+        }
     }
 
     
