@@ -13,11 +13,7 @@ public abstract class Projectile : MonoBehaviour
         Move(); 
     }
 
-    public virtual void Move()
-    {
-        var translation = Vector3.forward * m_speed * Time.deltaTime;
-		transform.Translate (translation);
-    }
+    public virtual void Move(){}
 
     private void OnTriggerEnter(Collider other) 
 	{

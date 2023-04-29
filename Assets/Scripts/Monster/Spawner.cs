@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Spawner : MonoBehaviour 
 {
-	[SerializeField] private ObjectPoolSO objectPool;
+	[SerializeField] private ObjectPoolSO m_objectPool;
 	[SerializeField] private GameObject m_moveTarget;
 	[SerializeField] private GameObject m_prefabMonster;
 	[SerializeField] private float m_interval = 3;
@@ -11,7 +11,7 @@ public class Spawner : MonoBehaviour
 	private int currentEnemies = 0;
 	private void Start()
 	{
-		objectPool.Initialize(gameObject);
+		m_objectPool.Initialize(gameObject);
 	}
 	private void Update () 
 	{
@@ -24,7 +24,7 @@ public class Spawner : MonoBehaviour
 
 	private void SpawnEnemy()
 	{
-		GameObject enemy = objectPool.GetObject(gameObject);
+		GameObject enemy = m_objectPool.GetObject(gameObject);
         enemy.transform.position = transform.position;
         enemy.SetActive(true);
         currentEnemies++;
@@ -40,7 +40,7 @@ public class Spawner : MonoBehaviour
         HealthComponent deathHandler = enemy.GetComponent<HealthComponent>();
         deathHandler.onDeath -= RemoveEnemy;
 
-        objectPool.ReturnObject(enemy);
+        m_objectPool.ReturnObject(enemy);
         currentEnemies--;
     }
 }
