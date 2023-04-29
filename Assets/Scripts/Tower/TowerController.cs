@@ -7,8 +7,9 @@ public abstract class TowerController : MonoBehaviour
     [SerializeField] protected float m_delay = 0.5f;
     [SerializeField] protected float m_speedProjectile = 20f;
     [SerializeField] protected GameObject m_projectilePrefab;
+    [SerializeField] private ObjectPoolSO m_objectPool;
 	[SerializeField] protected Transform m_shootPoint;
-
+    private int currentProjectile = 0; 
     protected SearchComponent m_search;
 
     protected float m_startTime = 0f;
@@ -16,17 +17,26 @@ public abstract class TowerController : MonoBehaviour
     protected virtual void Start()
     {
         m_search = GetComponent<SearchComponent>();
+        m_objectPool.Initialize(transform.root.gameObject);
         m_startTime = Time.time;
     }
+
     private void Shot(GameObject target)
     {
         if (Time.time > m_startTime + m_delay)
         {
-            var projectile = Instantiate(m_projectilePrefab, m_shootPoint.position, m_shootPoint.rotation);
-            var projectileBeh = projectile.GetComponent<IProjectile>(); 
+            GameObject projectile = m_objectPool.GetObject(transform.root.gameObject);
+            projectile.transform.rotation = m_shootPoint.transform.rotation;
+            projectile.transform.position = m_shootPoint.transform.position;
+            projectile.SetActive(true);
+            currentProjectile++;
+            var projectileBeh = projectile.GetComponent<IProjectile>();
             projectileBeh.Init(target, m_speedProjectile);
+
+		    projectileBeh.onDestroy += RemoveProjectile;
             m_startTime = Time.time;
         }
+        
     }
 
     public virtual void Rotation(GameObject target){}
@@ -39,6 +49,15 @@ public abstract class TowerController : MonoBehaviour
             Rotation(target);
             Shot(target);
         }
+    }
+
+    private void RemoveProjectile(GameObject projectile)
+    {
+        var projectileBeh = projectile.GetComponent<IProjectile>();
+        projectileBeh.onDestroy -= RemoveProjectile;
+
+        m_objectPool.ReturnObject(projectile);
+        currentProjectile--;
     }
 
     

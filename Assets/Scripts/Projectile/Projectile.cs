@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Projectile : MonoBehaviour
 {
+    public event System.Action<GameObject> onDestroy;
     [SerializeField] private int m_damage = 10;
     protected float m_speed = 20f;
     protected GameObject m_target;
@@ -35,6 +36,7 @@ public abstract class Projectile : MonoBehaviour
 
     protected void DestroyObject()
     {
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        onDestroy?.Invoke(gameObject);
     }
 }
