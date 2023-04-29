@@ -10,21 +10,21 @@ public class ObjectPoolSO : ScriptableObject
 
     private Queue<GameObject> objectPool = new Queue<GameObject>();
 
-    public void Initialize()
+    public void Initialize(GameObject container)
     {
         for (int i = 0; i < poolSize; i++)
         {
-            GameObject obj = Instantiate(prefab);
+            GameObject obj = Instantiate(prefab, container.transform);
             obj.SetActive(false);
             objectPool.Enqueue(obj);
         }
     }
 
-    public GameObject GetObject()
+    public GameObject GetObject(GameObject container)
     {
         if (objectPool.Count == 0)
         {
-            GameObject obj = Instantiate(prefab);
+            GameObject obj = Instantiate(prefab, container.transform);
             obj.SetActive(false);
             objectPool.Enqueue(obj);
         }

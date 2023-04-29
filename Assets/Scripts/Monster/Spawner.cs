@@ -11,7 +11,7 @@ public class Spawner : MonoBehaviour
 	private int currentEnemies = 0;
 	private void Start()
 	{
-		objectPool.Initialize();
+		objectPool.Initialize(gameObject);
 	}
 	private void Update () 
 	{
@@ -24,7 +24,7 @@ public class Spawner : MonoBehaviour
 
 	private void SpawnEnemy()
 	{
-		GameObject enemy = objectPool.GetObject();
+		GameObject enemy = objectPool.GetObject(gameObject);
         enemy.transform.position = transform.position;
         enemy.SetActive(true);
         currentEnemies++;
@@ -34,6 +34,7 @@ public class Spawner : MonoBehaviour
 		HealthComponent death = enemyBeh.GetComponent<HealthComponent>();
 		death.onDeath += RemoveEnemy;
 	}
+
 	public void RemoveEnemy(GameObject enemy)
     {
         HealthComponent deathHandler = enemy.GetComponent<HealthComponent>();
