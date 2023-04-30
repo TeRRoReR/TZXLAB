@@ -4,12 +4,13 @@ using System.Collections;
 public class CannonProjectile : Projectile , IProjectile
 {
 	private Rigidbody m_rb;
+	private Vector3 m_direction;
 
 	private void OnEnable()
 	{
 		m_rb = GetComponent<Rigidbody>();
 	}
-
+	
 	protected override void Update(){}
 	
 	protected override void Move(Vector3 dir)
@@ -21,6 +22,7 @@ public class CannonProjectile : Projectile , IProjectile
 	{
 		m_target = target;
 		m_speed = speed;
-		Move(dir);
+		m_direction = dir;
+		Move(m_direction);
 	}
 }
