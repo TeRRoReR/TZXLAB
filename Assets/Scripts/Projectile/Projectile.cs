@@ -9,14 +9,14 @@ public abstract class Projectile : MonoBehaviour
     protected float m_speed = 20f;
     protected GameObject m_target;
 
-    private void Update()
+    protected virtual void Update()
     {
-        Move(); 
+        Move(Vector3.forward); 
     }
 
-    public virtual void Move(){}
+    protected abstract void Move(Vector3 dir);
 
-    private void OnTriggerEnter(Collider other) 
+    private void OnCollisionEnter(Collision other) 
 	{
 		if(other.gameObject.TryGetComponent<HealthComponent>(out HealthComponent health))
 		{

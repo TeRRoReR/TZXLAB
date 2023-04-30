@@ -3,15 +3,18 @@ using System.Collections;
 
 public class CannonProjectile : Projectile , IProjectile
 {
-	public override void Move()
+	protected override void Update(){}
+	
+	protected override void Move(Vector3 dir)
     {
-		var translation = Vector3.forward * m_speed * Time.deltaTime;
-		transform.Translate (translation);
+		Rigidbody rb = GetComponent<Rigidbody>();
+		rb.velocity = dir * m_speed;
 	}
 
-	public void Init(GameObject target, float speed)
+	public void Init(GameObject target, float speed, Vector3 dir)
 	{
 		m_target = target;
 		m_speed = speed;
+		Move(dir);
 	}
 }

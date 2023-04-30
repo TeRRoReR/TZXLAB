@@ -5,5 +5,5 @@ using UnityEngine;
 public interface IProjectile
 {
     event System.Action<GameObject> onDestroy;
-    void Init(GameObject target, float speed);
+    void Init(GameObject target, float speed, Vector3 dir);
 }
