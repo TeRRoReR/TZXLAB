@@ -4,7 +4,6 @@ using System.Collections;
 public class Monster : MonoBehaviour 
 {
 	[SerializeField] private float m_speed = 0.1f;
-	const float m_reachDistance = 0.3f;
 	private GameObject m_moveTarget;
 	private Rigidbody rb;
 

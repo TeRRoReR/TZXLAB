@@ -6,12 +6,13 @@ public class Spawner : MonoBehaviour
 	[SerializeField] private ObjectPoolSO m_objectPool;
 	[SerializeField] private GameObject m_moveTarget;
 	[SerializeField] private GameObject m_prefabMonster;
-	[SerializeField] private float m_interval = 3;
-	private float m_lastSpawn = -1;
+	[SerializeField] private float m_interval = 3f;
+	private float m_lastSpawn = 0f;
 	private int currentEnemies = 0;
 	private void Start()
 	{
 		m_objectPool.Initialize(gameObject);
+		m_lastSpawn = Time.time;
 	}
 	private void Update () 
 	{
