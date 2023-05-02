@@ -11,7 +11,7 @@ public abstract class Projectile : MonoBehaviour
     protected GameObject m_target;
     private float m_currentLifeTime = 0f;
 
-    private void Start()
+    protected virtual void OnEnable()
     {
         m_currentLifeTime = m_lifeTime;
     }
