@@ -57,6 +57,7 @@
      <Compile Include="Assets\Scripts\Projectile\GuidedProjectile.cs" />
      <Compile Include="Assets\Origin\Standard Assets\Effects\ImageEffects\Scripts\BlurOptimized.cs" />
      <Compile Include="Assets\Origin\Standard Assets\Effects\ImageEffects\Scripts\BloomOptimized.cs" />
+     <Compile Include="Assets\Scripts\Component\AttackComponent.cs" />
      <Compile Include="Assets\Origin\Standard Assets\Effects\ImageEffects\Scripts\DepthOfField.cs" />
      <Compile Include="Assets\Origin\Standard Assets\Effects\ImageEffects\Scripts\NoiseAndScratches.cs" />
      <Compile Include="Assets\Origin\Standard Assets\Environment\Water\Water\Scripts\GerstnerDisplace.cs" />
@@ -100,7 +101,6 @@
      <Compile Include="Assets\Origin\Standard Assets\Effects\ImageEffects\Scripts\MotionBlur.cs" />
      <Compile Include="Assets\Origin\Standard Assets\Effects\ImageEffects\Scripts\CreaseShading.cs" />
      <Compile Include="Assets\Scripts\Interfaces.cs" />
-     <Compile Include="Assets\Scripts\Component\AttackComponent.cs" />
      <None Include="Assets\Origin\Standard Assets\Effects\ImageEffects\Shaders\Tonemapper.shader" />
      <None Include="Assets\Origin\Standard Assets\Effects\ImageEffects\Shaders\GlobalFog.shader" />
      <None Include="Assets\Origin\Standard Assets\Effects\ImageEffects\Shaders\VortexEffect.shader" />
