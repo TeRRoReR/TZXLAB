@@ -2,15 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CanonBalisticProjectile : CannonProjectile
+public class CanonBalisticProjectile : Projectile, IProjectile
 {
-    void Start()
+    private Rigidbody m_rb;
+    protected override void OnEnable() 
+    {
+        base.OnEnable();
+        m_rb.GetComponent<Rigidbody>();
+    }
+    protected override void Move()
     {
         
     }
 
-    void Update()
-    {
-        
-    }
+	public void Init(GameObject target, float speed)
+	{
+		
+	}
 }

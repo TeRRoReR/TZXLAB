@@ -10,8 +10,7 @@ public class AttackComponent : MonoBehaviour
 	[SerializeField] protected Transform m_shootPoint;
     private int currentProjectile = 0;
     protected float m_startTime = 0f;
-
-    // Update is called once per frame
+    
     private void Start()
     {
         m_objectPool.Initialize(transform.root.gameObject);
