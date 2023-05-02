@@ -15,6 +15,7 @@ public abstract class Projectile : MonoBehaviour
     {
         m_currentLifeTime = m_lifeTime;
     }
+
     protected virtual void Update()
     {
         m_currentLifeTime -= Time.deltaTime;
@@ -46,7 +47,6 @@ public abstract class Projectile : MonoBehaviour
 
     protected void DestroyObject()
     {
-        //Destroy(gameObject);
         onDestroy?.Invoke(gameObject);
     }
 

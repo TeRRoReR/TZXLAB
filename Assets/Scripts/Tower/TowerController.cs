@@ -5,17 +5,19 @@ using UnityEngine;
 public abstract class TowerController : MonoBehaviour
 {
     [SerializeField] private GameObject m_weapon;
-    protected SearchComponent m_search;
+    private SearchComponent m_search;
     protected RotationComponent m_rotation;
     private AttackComponent m_attack;
+    protected GameObject m_container;
     protected virtual void Start()
     {
         m_search = GetComponent<SearchComponent>();
         m_attack = m_weapon.GetComponent<AttackComponent>();
         m_rotation = m_weapon.GetComponent<RotationComponent>();
+        m_attack.Init(m_container);
     }
 
-    private void Shot(GameObject target)
+    protected virtual void Shot(GameObject target)
     {
         m_attack.Shot(target);
     }

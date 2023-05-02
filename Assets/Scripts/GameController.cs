@@ -4,19 +4,14 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField] private GameObject[] m_towerPoints;
-    [SerializeField] private GameObject[] m_prefabTower;
+    [SerializeField] private GameObject[] m_towers;
 
     private void Start()
     {
-        for (int i = 0; i < m_towerPoints.Length; i++)
+        foreach (var go in m_towers)
         {
-            SpawnTower(i);
+            var towerBeh = go.GetComponent<ITower>();
+            towerBeh.Init(gameObject);
         }
-    }
-
-    private void SpawnTower(int id)
-    {
-        var tower = Instantiate(m_prefabTower[id], m_towerPoints[id].transform);
     }
 }
