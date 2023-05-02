@@ -100,6 +100,7 @@
      <Compile Include="Assets\Origin\Standard Assets\Effects\ImageEffects\Scripts\MotionBlur.cs" />
      <Compile Include="Assets\Origin\Standard Assets\Effects\ImageEffects\Scripts\CreaseShading.cs" />
      <Compile Include="Assets\Scripts\Projectile\IProjectile.cs" />
+     <Compile Include="Assets\Scripts\Tower\AttackComponent.cs" />
      <None Include="Assets\Origin\Standard Assets\Effects\ImageEffects\Shaders\Tonemapper.shader" />
      <None Include="Assets\Origin\Standard Assets\Effects\ImageEffects\Shaders\GlobalFog.shader" />
      <None Include="Assets\Origin\Standard Assets\Effects\ImageEffects\Shaders\VortexEffect.shader" />

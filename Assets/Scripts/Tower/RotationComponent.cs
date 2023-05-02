@@ -7,20 +7,22 @@ public class RotationComponent : MonoBehaviour
     [SerializeField] private GameObject m_muzzle;
     [SerializeField] private float m_speedRotation = 20f;
     private Transform m_shootPoint;
+    private float m_speedProjectile;
     private void Awake()
     {
         m_shootPoint = transform;
     }
-    public void Init(Transform shootPoint)
+    public void Init(Transform shootPoint, float speedProjectile)
     {
         m_shootPoint = shootPoint;
+        m_speedProjectile = speedProjectile;
     }
 
-    public Vector3 CalculateLead(GameObject target, float speedProjectile)
+    public Vector3 CalculateLead(GameObject target)
     {
         Vector3 targetDir = target.transform.position - m_shootPoint.transform.position;
         Vector3 targetVelocity = target.GetComponent<Rigidbody>().velocity;
-        float timeToIntersection = GetTimeToIntersection(targetDir, targetVelocity, speedProjectile);
+        float timeToIntersection = GetTimeToIntersection(targetDir, targetVelocity, m_speedProjectile);
         Vector3 aimPoint = target.transform.position + targetVelocity * timeToIntersection;
         Vector3 aimDirection = aimPoint - m_shootPoint.transform.position;
         return aimDirection;
