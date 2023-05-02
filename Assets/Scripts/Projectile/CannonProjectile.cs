@@ -8,21 +8,19 @@ public class CannonProjectile : Projectile , IProjectile
 
 	private void OnEnable()
 	{
-		m_rb = GetComponent<Rigidbody>();
+		//m_rb = GetComponent<Rigidbody>();
+		m_direction = Vector3.forward;
 	}
 	
-	protected override void Update(){}
-	
-	protected override void Move(Vector3 dir)
+	protected override void Move()
     {
-		m_rb.velocity = dir * m_speed;
+		var translation = m_direction * m_speed * Time.deltaTime;
+		transform.Translate (translation);
 	}
 
-	public void Init(GameObject target, float speed, Vector3 dir)
+	public void Init(GameObject target, float speed)
 	{
 		m_target = target;
 		m_speed = speed;
-		m_direction = dir;
-		Move(m_direction);
 	}
 }

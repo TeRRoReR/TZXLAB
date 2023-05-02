@@ -4,19 +4,30 @@ using UnityEngine;
 
 public abstract class Projectile : MonoBehaviour
 {
-    public event System.Action<GameObject> onDestroy;
     [SerializeField] private int m_damage = 10;
+    [SerializeField] private float m_lifeTime = 5f;
+    public event System.Action<GameObject> onDestroy;
     protected float m_speed = 20f;
     protected GameObject m_target;
+    private float m_currentLifeTime = 0f;
 
+    private void Start()
+    {
+        m_currentLifeTime = m_lifeTime;
+    }
     protected virtual void Update()
     {
-        Move(Vector3.forward); 
+        m_currentLifeTime -= Time.deltaTime;
+		if (m_currentLifeTime <= 0)
+		{
+			DestroyObject();
+		}
+        Move(); 
     }
 
-    protected abstract void Move(Vector3 dir);
+    protected abstract void Move();
 
-    private void OnCollisionEnter(Collision other) 
+    private void OnTriggerEnter(Collider other) 
 	{
 		if(other.gameObject.TryGetComponent<HealthComponent>(out HealthComponent health))
 		{
@@ -24,7 +35,6 @@ public abstract class Projectile : MonoBehaviour
             health.onDeath -= RemoveObj;
 		}
         DestroyObject();
-		
 	}
 
     protected void RemoveObj(GameObject target)
@@ -39,4 +49,5 @@ public abstract class Projectile : MonoBehaviour
         //Destroy(gameObject);
         onDestroy?.Invoke(gameObject);
     }
+
 }

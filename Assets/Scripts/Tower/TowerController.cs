@@ -31,20 +31,19 @@ public abstract class TowerController : MonoBehaviour
             projectile.SetActive(true);
             currentProjectile++;
             var projectileBeh = projectile.GetComponent<IProjectile>();
-            projectileBeh.Init(target, m_speedProjectile, m_shootPoint.forward);
+            projectileBeh.Init(target, m_speedProjectile);
 		    projectileBeh.onDestroy += RemoveProjectile;
             m_startTime = Time.time;
         }
-        
     }
 
     protected virtual void Rotation(GameObject target){}
 
     private void Update()
     {
-        if(m_search.Current)
+        var target = m_search.Current;
+        if(target)
         {
-            GameObject target = m_search.Current;
             Rotation(target);
             Shot(target);
         }

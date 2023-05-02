@@ -5,7 +5,7 @@ public class CannonTower : TowerController
 {
     private RotationComponent m_rotation;
 
-    protected virtual void Start()
+    protected override void Start()
     {
         base.Start();
         m_rotation = GetComponent<RotationComponent>();

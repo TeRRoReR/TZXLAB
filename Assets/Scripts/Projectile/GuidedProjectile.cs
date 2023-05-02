@@ -3,14 +3,14 @@ using System.Collections;
 
 public class GuidedProjectile : Projectile , IProjectile
 {
-	protected override void Move(Vector3 dir)
+	protected override void Move()
     {
         var translation = m_target.transform.position - transform.position;
 		translation = translation.normalized * m_speed * Time.deltaTime;
 		transform.Translate (translation);
     }
 
-	public void Init(GameObject target, float speed, Vector3 dir)
+	public void Init(GameObject target, float speed)
 	{
 		m_target = target;
 		m_speed = speed;
