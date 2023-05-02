@@ -9,7 +9,6 @@ public class CannonProjectile : Projectile , IProjectile
 	protected override void OnEnable()
 	{
 		base.OnEnable();
-		//m_rb = GetComponent<Rigidbody>();
 		m_direction = Vector3.forward;
 	}
 	
