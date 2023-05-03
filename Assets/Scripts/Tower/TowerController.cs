@@ -26,11 +26,21 @@ public abstract class TowerController : MonoBehaviour
 
     private void Update()
     {
+        if(!m_search)
+        {
+            return;
+        }
         var target = m_search.Current;
         if(target)
         {
-            Rotation(target);
-            Shot(target);
+            if(m_rotation)
+            {
+                Rotation(target);
+            }
+            if(m_attack)
+            {
+                Shot(target);
+            }
         }
     }
 }
