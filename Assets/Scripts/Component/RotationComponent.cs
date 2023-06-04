@@ -8,6 +8,8 @@ public class RotationComponent : MonoBehaviour
     [SerializeField] private float m_speedRotation = 20f;
     private Transform m_shootPoint;
     private float m_speedProjectile;
+    private float m_gravity = 9.8f;
+    private float m_timeToIntersection = 0f;
     private void Awake()
     {
         m_shootPoint = transform;
@@ -18,18 +20,25 @@ public class RotationComponent : MonoBehaviour
         m_speedProjectile = speedProjectile;
     }
 
-    public Vector3 CalculateLead(GameObject target)
+    public Vector3 CalculateLead(GameObject target, bool mode)
     {
         Vector3 targetDir = target.transform.position - m_shootPoint.transform.position;
         Vector3 targetVelocity = target.GetComponent<Rigidbody>().velocity;
-        float timeToIntersection = GetTimeToIntersection(targetDir, targetVelocity, m_speedProjectile);
-        Vector3 aimPoint = target.transform.position + targetVelocity * timeToIntersection;
+        if(mode)
+        {
+            m_timeToIntersection = CalculateTimeToTarget(targetDir);
+        }
+        else
+        {
+            m_timeToIntersection = GetTimeToIntersection(targetDir, targetVelocity, m_speedProjectile);
+        }
+        Vector3 aimPoint = target.transform.position + targetVelocity * m_timeToIntersection;
         Vector3 aimDirection = aimPoint - m_shootPoint.transform.position;
         return aimDirection;
     }
     public void RotationBallisticMuzzle(Vector3 dir)
     {
-        float? angle = CalculateAngle(dir, true);
+        float? angle = CalculateAngle(dir);
         if(angle != null)
         {
             Quaternion verticalRotation = Quaternion.Euler(360 - (float)angle, 0f, 0f);
@@ -53,26 +62,41 @@ public class RotationComponent : MonoBehaviour
         transform.rotation = towerRotation;
     }
 
-    private float? CalculateAngle(Vector3 dir, bool low)
+    private float? CalculateAngle(Vector3 dir)
     {
         float y = dir.y;
         dir.y = 0f;
         float x = dir.magnitude;
-        float gravity = 9.8f;
         float sSqr = m_speedProjectile * m_speedProjectile;
-        float underTheSqrRoot = (sSqr * sSqr) - gravity * (gravity * x * x + 2 * y * sSqr);
+        float underTheSqrRoot = (sSqr * sSqr) - m_gravity * (m_gravity * x * x + 2 * y * sSqr);
         if(underTheSqrRoot >= 0f)
         {
             float root = Mathf.Sqrt(underTheSqrRoot);
             float highAngle = sSqr + root;
             float lowAngle = sSqr - root;
-            if(low)
-            {
-                return (Mathf.Atan2(lowAngle, gravity * x) * Mathf.Rad2Deg);
-            }
-            else return (Mathf.Atan2(highAngle, gravity * x) * Mathf.Rad2Deg);
+            return (Mathf.Atan2(lowAngle, m_gravity * x) * Mathf.Rad2Deg);
         }
         else return null;
+    }
+
+    private float CalculateTimeToTarget(Vector3 dir)
+    {
+        float y = dir.y;
+        dir.y = 0f;
+        float x = dir.magnitude;
+        float sSqr = m_speedProjectile * m_speedProjectile;
+        float underTheSqrRoot = (sSqr * sSqr) - m_gravity * (m_gravity * x * x + 2 * y * sSqr);
+        if (underTheSqrRoot >= 0f)
+        {
+            float root = Mathf.Sqrt(underTheSqrRoot);
+            float lowAngle = sSqr - root;
+            float timeToTarget = x / (m_speedProjectile * Mathf.Cos(Mathf.Atan2(lowAngle, m_gravity * x)));
+            return timeToTarget;
+        }
+        else
+        {
+            return 0f;
+        }
     }
 
     private float GetTimeToIntersection(Vector3 targetDir, Vector3 targetVelocity, float bulletSpeed)

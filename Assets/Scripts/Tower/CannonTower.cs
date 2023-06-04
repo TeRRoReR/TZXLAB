@@ -18,7 +18,7 @@ public class CannonTower : TowerController, ITower
 
     private void Rotation(GameObject target)
     {
-        Vector3 aimDirection = m_rotation.CalculateLead(target);
+        Vector3 aimDirection = m_rotation.CalculateLead(target, m_isBallistic);
         m_rotation.RotationTower(aimDirection);
         if(m_isBallistic)
         {
