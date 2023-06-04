@@ -38,8 +38,6 @@ public class AttackComponent : MonoBehaviour
             currentProjectile++;
             var projectileBeh = projectile.GetComponent<IProjectile>();
             projectileBeh.Init(target, m_speedProjectile);
-            // var m_rb = projectile.GetComponent<Rigidbody>();
-            // m_rb.velocity = m_speedProjectile * m_shootPoint.forward;
             projectileBeh.onDestroy += RemoveProjectile;
             m_startTime = Time.time;
         }

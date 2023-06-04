@@ -60,7 +60,6 @@ public class RotationComponent : MonoBehaviour
         float gravity = 9.8f;
         float sSqr = m_speedProjectile * m_speedProjectile;
         float underTheSqrRoot = (sSqr * sSqr) - gravity * (gravity * x * x + 2 * y * sSqr);
-        Debug.Log(underTheSqrRoot);
         if(underTheSqrRoot >= 0f)
         {
             float root = Mathf.Sqrt(underTheSqrRoot);
