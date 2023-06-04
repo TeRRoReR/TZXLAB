@@ -8,6 +8,8 @@ public class AttackComponent : MonoBehaviour
     [SerializeField] private float m_speedProjectile = 20f;
     [SerializeField] private ObjectPoolSO[] m_objectPool;
 	[SerializeField] private Transform m_shootPoint;
+    public float speedProjectile => m_speedProjectile;
+    public Transform shootPoint => m_shootPoint;
     private int currentProjectile = 0;
     private float m_startTime = 0f;
     private GameObject m_container;
@@ -24,10 +26,6 @@ public class AttackComponent : MonoBehaviour
             go.Initialize(m_container);
         }
         m_startTime = Time.time;
-        if(gameObject.TryGetComponent<RotationComponent>(out RotationComponent rotation))
-		{
-            rotation.Init(m_shootPoint, m_speedProjectile);
-        }
     }
 
     public void Init(GameObject container)

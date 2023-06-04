@@ -10,6 +10,7 @@ public class CannonTower : TowerController, ITower
     {
         base.Start();
         m_rotation = m_weapon.GetComponent<RotationComponent>();
+        m_rotation.Init(m_attack.shootPoint, m_attack.speedProjectile);
     }
     public void Init(GameObject container)
     {
