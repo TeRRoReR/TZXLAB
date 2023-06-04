@@ -28,7 +28,7 @@ public abstract class Projectile : MonoBehaviour
 
     protected abstract void Move();
 
-    private void OnTriggerEnter(Collider other) 
+    private void OnCollisionEnter(Collision other) 
 	{
 		if(other.gameObject.TryGetComponent<HealthComponent>(out HealthComponent health))
 		{

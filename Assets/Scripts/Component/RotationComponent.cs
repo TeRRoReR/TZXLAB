@@ -29,10 +29,15 @@ public class RotationComponent : MonoBehaviour
     }
     public void RotationMuzzle(Vector3 dir)
     {
-        Vector3 targetDirWithoutY = new Vector3(dir.x, 0f, dir.z).normalized;
-        float verticalAngle = Vector3.Angle(targetDirWithoutY, dir);
-        Quaternion verticalRotation = Quaternion.Euler(verticalAngle, 0f, 0f);
-        m_muzzle.transform.localRotation = Quaternion.RotateTowards(m_muzzle.transform.localRotation, verticalRotation, m_speedRotation * Time.deltaTime);
+        float? angle = CalculateAngle(dir);
+        if(angle != null)
+        {
+            m_muzzle.transform.localEulerAngles = new Vector3(360f - (float)angle, 0f,0f);
+        }
+        // Vector3 targetDirWithoutY = new Vector3(dir.x, 0f, dir.z).normalized;
+        // float verticalAngle = Vector3.Angle(targetDirWithoutY, dir);
+        // Quaternion verticalRotation = Quaternion.Euler(verticalAngle, 0f, 0f);
+        // m_muzzle.transform.localRotation = Quaternion.RotateTowards(m_muzzle.transform.localRotation, verticalRotation, m_speedRotation * Time.deltaTime);
     }
 
     public void RotationTower(Vector3 dir)
@@ -41,6 +46,25 @@ public class RotationComponent : MonoBehaviour
         Quaternion targetRotation = Quaternion.LookRotation(targetDirWithoutX);
         Quaternion towerRotation = Quaternion.RotateTowards(transform.rotation, targetRotation, m_speedRotation * Time.deltaTime);
         transform.rotation = towerRotation;
+    }
+
+    private float? CalculateAngle(Vector3 dir)
+    {
+        float y = dir.y;
+        dir.y = 0f;
+        float x = dir.magnitude;
+        float gravity = 9.8f;
+        float sSqr = m_speedProjectile * m_speedProjectile;
+        float underTheSqrRoot = (sSqr * sSqr) - gravity * (gravity * x * x + 2 * y * sSqr);
+        Debug.Log(underTheSqrRoot);
+        if(underTheSqrRoot >= 0f)
+        {
+            float root = Mathf.Sqrt(underTheSqrRoot);
+            float highAngle = sSqr + root;
+            float lowAngle = sSqr - root;
+            return (Mathf.Atan2(lowAngle, gravity * x) * Mathf.Rad2Deg);
+        }
+        else return null;
     }
 
     private float GetTimeToIntersection(Vector3 targetDir, Vector3 targetVelocity, float bulletSpeed)
