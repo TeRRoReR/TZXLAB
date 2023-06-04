@@ -29,7 +29,7 @@ public class RotationComponent : MonoBehaviour
     }
     public void RotationMuzzle(Vector3 dir)
     {
-        float? angle = CalculateAngle(dir);
+        float? angle = CalculateAngle(dir, true);
         if(angle != null)
         {
             m_muzzle.transform.localEulerAngles = new Vector3(360f - (float)angle, 0f,0f);
@@ -48,7 +48,7 @@ public class RotationComponent : MonoBehaviour
         transform.rotation = towerRotation;
     }
 
-    private float? CalculateAngle(Vector3 dir)
+    private float? CalculateAngle(Vector3 dir, bool low)
     {
         float y = dir.y;
         dir.y = 0f;
@@ -62,7 +62,11 @@ public class RotationComponent : MonoBehaviour
             float root = Mathf.Sqrt(underTheSqrRoot);
             float highAngle = sSqr + root;
             float lowAngle = sSqr - root;
-            return (Mathf.Atan2(lowAngle, gravity * x) * Mathf.Rad2Deg);
+            if(low)
+            {
+                return (Mathf.Atan2(lowAngle, gravity * x) * Mathf.Rad2Deg);
+            }
+            else return (Mathf.Atan2(highAngle, gravity * x) * Mathf.Rad2Deg);
         }
         else return null;
     }
