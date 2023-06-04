@@ -72,7 +72,6 @@ public class RotationComponent : MonoBehaviour
         if(underTheSqrRoot >= 0f)
         {
             float root = Mathf.Sqrt(underTheSqrRoot);
-            float highAngle = sSqr + root;
             float lowAngle = sSqr - root;
             return (Mathf.Atan2(lowAngle, m_gravity * x) * Mathf.Rad2Deg);
         }
