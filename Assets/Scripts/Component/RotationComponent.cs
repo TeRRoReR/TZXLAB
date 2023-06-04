@@ -27,17 +27,21 @@ public class RotationComponent : MonoBehaviour
         Vector3 aimDirection = aimPoint - m_shootPoint.transform.position;
         return aimDirection;
     }
-    public void RotationMuzzle(Vector3 dir)
+    public void RotationBallisticMuzzle(Vector3 dir)
     {
         float? angle = CalculateAngle(dir, true);
         if(angle != null)
         {
             m_muzzle.transform.localEulerAngles = new Vector3(360f - (float)angle, 0f,0f);
         }
-        // Vector3 targetDirWithoutY = new Vector3(dir.x, 0f, dir.z).normalized;
-        // float verticalAngle = Vector3.Angle(targetDirWithoutY, dir);
-        // Quaternion verticalRotation = Quaternion.Euler(verticalAngle, 0f, 0f);
-        // m_muzzle.transform.localRotation = Quaternion.RotateTowards(m_muzzle.transform.localRotation, verticalRotation, m_speedRotation * Time.deltaTime);
+    }
+
+    public void RotationMuzzle(Vector3 dir)
+    {
+        Vector3 targetDirWithoutY = new Vector3(dir.x, 0f, dir.z).normalized;
+        float verticalAngle = Vector3.Angle(targetDirWithoutY, dir);
+        Quaternion verticalRotation = Quaternion.Euler(verticalAngle, 0f, 0f);
+        m_muzzle.transform.localRotation = Quaternion.RotateTowards(m_muzzle.transform.localRotation, verticalRotation, m_speedRotation * Time.deltaTime);
     }
 
     public void RotationTower(Vector3 dir)

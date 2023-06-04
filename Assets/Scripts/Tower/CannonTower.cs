@@ -3,15 +3,31 @@ using System.Collections;
 
 public class CannonTower : TowerController, ITower
 {
+    private RotationComponent m_rotation;
+
+    protected override void Start()
+    {
+        base.Start();
+        m_rotation = m_weapon.GetComponent<RotationComponent>();
+    }
     public void Init(GameObject container)
     {
         m_container = container;
     }
 
-    protected override void Rotation(GameObject target)
+    private void Rotation(GameObject target)
     {
         Vector3 aimDirection = m_rotation.CalculateLead(target);
         m_rotation.RotationTower(aimDirection);
         m_rotation.RotationMuzzle(aimDirection);
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+        if(m_target)
+        {
+            Rotation(m_target);
+        }
     }
 }
