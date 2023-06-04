@@ -23,10 +23,7 @@ public abstract class Projectile : MonoBehaviour
 		{
 			DestroyObject();
 		}
-        Move(); 
     }
-
-    protected abstract void Move();
 
     private void OnCollisionEnter(Collision other) 
 	{

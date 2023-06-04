@@ -1,9 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GuidedProjectile : Projectile , IProjectile
+public class GuidedProjectile : Projectile , IProjectile, IMove
 {
-	protected override void Move()
+	protected override void Update()
+	{
+		base.Update();
+		Move();
+	}
+	
+	public void Move()
     {
         var translation = m_target.transform.position - transform.position;
 		translation = translation.normalized * m_speed * Time.deltaTime;

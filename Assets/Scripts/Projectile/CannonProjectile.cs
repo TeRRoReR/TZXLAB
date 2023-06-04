@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CannonProjectile : Projectile , IProjectile
+public class CannonProjectile : Projectile , IProjectile, IMove
 {
 	private Rigidbody m_rb;
-	private Vector3 m_direction;
+	protected Vector3 m_direction;
 
 	protected override void OnEnable()
 	{
@@ -12,7 +12,13 @@ public class CannonProjectile : Projectile , IProjectile
 		m_direction = Vector3.forward;
 	}
 	
-	protected override void Move()
+	protected override void Update()
+	{
+		base.Update();
+		Move();
+	}
+
+	public void Move()
     {
 		var translation = m_direction * m_speed * Time.deltaTime;
 		transform.Translate (translation);

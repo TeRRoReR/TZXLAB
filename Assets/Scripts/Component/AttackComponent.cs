@@ -32,14 +32,14 @@ public class AttackComponent : MonoBehaviour
         if (Time.time > m_startTime + m_delay)
         {
             GameObject projectile = m_objectPool.GetObject(m_container);
+            projectile.SetActive(true);
             projectile.transform.rotation = m_shootPoint.transform.rotation;
             projectile.transform.position = m_shootPoint.transform.position;
-            projectile.SetActive(true);
             currentProjectile++;
             var projectileBeh = projectile.GetComponent<IProjectile>();
             projectileBeh.Init(target, m_speedProjectile);
-            var m_rb = projectile.GetComponent<Rigidbody>();
-            m_rb.velocity = m_speedProjectile * m_shootPoint.forward;
+            // var m_rb = projectile.GetComponent<Rigidbody>();
+            // m_rb.velocity = m_speedProjectile * m_shootPoint.forward;
             projectileBeh.onDestroy += RemoveProjectile;
             m_startTime = Time.time;
         }

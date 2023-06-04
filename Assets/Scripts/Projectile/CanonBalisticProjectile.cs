@@ -8,16 +8,13 @@ public class CanonBalisticProjectile : Projectile, IProjectile
     protected override void OnEnable() 
     {
         base.OnEnable();
-        // m_rb = GetComponent<Rigidbody>();
-        // m_rb.velocity = m_speed * Vector3.forward;
-    }
-    protected override void Move()
-    {
-
+        m_rb = GetComponent<Rigidbody>();
     }
 
 	public void Init(GameObject target, float speed)
 	{
-		m_speed = speed;
+		m_speed = speed;  
+        var m_direction = transform.forward;
+        m_rb.velocity = m_speed * m_direction; 
 	}
 }
