@@ -32,7 +32,8 @@ public class RotationComponent : MonoBehaviour
         float? angle = CalculateAngle(dir, true);
         if(angle != null)
         {
-            m_muzzle.transform.localEulerAngles = new Vector3(360f - (float)angle, 0f,0f);
+            Quaternion verticalRotation = Quaternion.Euler(360 - (float)angle, 0f, 0f);
+            m_muzzle.transform.localRotation = Quaternion.RotateTowards(m_muzzle.transform.localRotation, verticalRotation, m_speedRotation * Time.deltaTime);
         }
     }
 
