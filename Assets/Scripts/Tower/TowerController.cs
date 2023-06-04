@@ -6,7 +6,7 @@ public abstract class TowerController : MonoBehaviour
 {
     [SerializeField] protected GameObject m_weapon;
     private SearchComponent m_search;
-    private AttackComponent m_attack;
+    protected AttackComponent m_attack;
     protected GameObject m_container;
     protected GameObject m_target;
     protected virtual void Start()

@@ -11,8 +11,9 @@ public class CanonBalisticProjectile : Projectile, IProjectile
         m_rb = GetComponent<Rigidbody>();
     }
 
-	public void Init(GameObject target, float speed)
+	public void Init(GameObject target, float speed, int ID)
 	{
+        m_ID = ID;
 		m_speed = speed;  
         var m_direction = transform.forward;
         m_rb.velocity = m_speed * m_direction; 

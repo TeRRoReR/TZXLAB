@@ -6,10 +6,12 @@ public abstract class Projectile : MonoBehaviour
 {
     [SerializeField] private int m_damage = 10;
     [SerializeField] private float m_lifeTime = 5f;
-    public event System.Action<GameObject> onDestroy;
+    public event System.Action<GameObject, int> onDestroy;
     protected float m_speed = 20f;
     protected GameObject m_target;
     private float m_currentLifeTime = 0f;
+
+    protected int m_ID { get; set; }
 
     protected virtual void OnEnable()
     {
@@ -44,7 +46,7 @@ public abstract class Projectile : MonoBehaviour
 
     protected void DestroyObject()
     {
-        onDestroy?.Invoke(gameObject);
+        onDestroy?.Invoke(gameObject, m_ID);
     }
 
 }

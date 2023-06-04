@@ -16,8 +16,9 @@ public class GuidedProjectile : Projectile , IProjectile, IMove
 		transform.Translate (translation);
     }
 
-	public void Init(GameObject target, float speed)
+	public void Init(GameObject target, float speed, int ID)
 	{
+		m_ID = ID;
 		m_target = target;
 		m_speed = speed;
 		HealthComponent death = m_target.GetComponent<HealthComponent>();

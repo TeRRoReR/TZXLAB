@@ -6,7 +6,7 @@ public class CannonProjectile : Projectile , IProjectile, IMove
 	private Rigidbody m_rb;
 	protected Vector3 m_direction;
 
-	protected override void OnEnable()
+    protected override void OnEnable()
 	{
 		base.OnEnable();
 		m_direction = Vector3.forward;
@@ -24,8 +24,9 @@ public class CannonProjectile : Projectile , IProjectile, IMove
 		transform.Translate (translation);
 	}
 
-	public void Init(GameObject target, float speed)
+	public void Init(GameObject target, float speed, int ID)
 	{
+		m_ID = ID;
 		m_speed = speed;
 	}
 }

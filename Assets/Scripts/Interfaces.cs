@@ -4,8 +4,8 @@ using UnityEngine;
 
 public interface IProjectile
 {
-    event System.Action<GameObject> onDestroy;
-    void Init(GameObject target, float speed);
+    event System.Action<GameObject,int> onDestroy;
+    void Init(GameObject target, float speed, int ID);
 }
 
 public interface IMove

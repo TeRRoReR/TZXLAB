@@ -22,10 +22,12 @@ public class CannonTower : TowerController, ITower
         m_rotation.RotationTower(aimDirection);
         if(m_isBallistic)
         {
+            m_attack.ChangeBullet(1);
             m_rotation.RotationBallisticMuzzle(aimDirection);
         }
         else
         {
+            m_attack.ChangeBullet(0);
             m_rotation.RotationMuzzle(aimDirection);
         }
     }
