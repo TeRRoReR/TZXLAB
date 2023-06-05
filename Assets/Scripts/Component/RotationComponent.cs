@@ -11,7 +11,7 @@ public class RotationComponent : MonoBehaviour
     private float m_speedProjectile;
     private float m_gravity = 9.8f;
     private float m_timeToIntersection = 0f;
-    private Vector3 direrc;
+    private Vector3 m_point;
     private void Awake()
     {
         m_shootPoint = transform;
@@ -35,7 +35,7 @@ public class RotationComponent : MonoBehaviour
             m_timeToIntersection = GetTimeToIntersection(target.transform.position, targetVelocity);
         }
         Vector3 aimPoint = target.transform.position + targetVelocity * m_timeToIntersection;
-        direrc = aimPoint;
+        m_point = aimPoint;
         Vector3 aimDirection = aimPoint - m_shootPoint.transform.position;
         return aimDirection;
     }
@@ -111,10 +111,10 @@ public class RotationComponent : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if(direrc != null)
+        if(m_point != null)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(direrc, 2f);
+            Gizmos.DrawWireSphere(m_point, 2f);
         } 
     }
 }
