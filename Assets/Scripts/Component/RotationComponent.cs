@@ -32,7 +32,7 @@ public class RotationComponent : MonoBehaviour
         }
         else
         {
-            m_timeToIntersection = GetTimeToIntersection(target.transform.position, targetVelocity, m_speedProjectile);
+            m_timeToIntersection = GetTimeToIntersection(target.transform.position, targetVelocity);
         }
         Vector3 aimPoint = target.transform.position + targetVelocity * m_timeToIntersection;
         direrc = aimPoint;
@@ -100,10 +100,10 @@ public class RotationComponent : MonoBehaviour
             return 0f;
         }
     }
-    private float GetTimeToIntersection(Vector3 targetPos, Vector3 targetVelocity, float bulletSpeed)
+    private float GetTimeToIntersection(Vector3 targetPos, Vector3 targetVelocity)
     {
         Vector3 projectileDirection = (targetPos - m_shootPoint.position).normalized;
-        Vector3 projectileVelocity = projectileDirection * bulletSpeed;
+        Vector3 projectileVelocity = projectileDirection * m_speedProjectile;
         Vector3 relativePosition = targetPos - m_shootPoint.position;
         float timeToIntercept = relativePosition.magnitude / (projectileVelocity - targetVelocity).magnitude;
         return timeToIntercept;
