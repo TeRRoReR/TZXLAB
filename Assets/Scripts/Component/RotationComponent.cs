@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class RotationComponent : MonoBehaviour
@@ -10,6 +11,7 @@ public class RotationComponent : MonoBehaviour
     private float m_speedProjectile;
     private float m_gravity = 9.8f;
     private float m_timeToIntersection = 0f;
+    private Vector3 direrc;
     private void Awake()
     {
         m_shootPoint = transform;
@@ -26,13 +28,14 @@ public class RotationComponent : MonoBehaviour
         Vector3 targetVelocity = target.GetComponent<Rigidbody>().velocity;
         if(mode)
         {
-            m_timeToIntersection = CalculateTimeToTarget(targetDir);
+            m_timeToIntersection = GetTimeToIntersection(targetDir);
         }
         else
         {
-            m_timeToIntersection = GetTimeToIntersection(targetDir, targetVelocity, m_speedProjectile);
+            m_timeToIntersection = GetTimeToIntersection(target.transform.position, targetVelocity, m_speedProjectile);
         }
         Vector3 aimPoint = target.transform.position + targetVelocity * m_timeToIntersection;
+        direrc = aimPoint;
         Vector3 aimDirection = aimPoint - m_shootPoint.transform.position;
         return aimDirection;
     }
@@ -78,7 +81,7 @@ public class RotationComponent : MonoBehaviour
         else return null;
     }
 
-    private float CalculateTimeToTarget(Vector3 dir)
+    private float GetTimeToIntersection(Vector3 dir)
     {
         float y = dir.y;
         dir.y = 0f;
@@ -97,38 +100,21 @@ public class RotationComponent : MonoBehaviour
             return 0f;
         }
     }
-
-    private float GetTimeToIntersection(Vector3 targetDir, Vector3 targetVelocity, float bulletSpeed)
+    private float GetTimeToIntersection(Vector3 targetPos, Vector3 targetVelocity, float bulletSpeed)
     {
-        float a = (targetVelocity.x * targetVelocity.x + targetVelocity.y * targetVelocity.y + targetVelocity.z * targetVelocity.z) - bulletSpeed * bulletSpeed;
-        float b = 2 * (targetVelocity.x * targetDir.x + targetVelocity.y * targetDir.y + targetVelocity.z * targetDir.z);
-        float c = targetDir.x * targetDir.x + targetDir.y * targetDir.y + targetDir.z * targetDir.z;
-        float discriminant = b * b - 4 * a * c;
-        if (discriminant < 0)
+        Vector3 projectileDirection = (targetPos - m_shootPoint.position).normalized;
+        Vector3 projectileVelocity = projectileDirection * bulletSpeed;
+        Vector3 relativePosition = targetPos - m_shootPoint.position;
+        float timeToIntercept = relativePosition.magnitude / (projectileVelocity - targetVelocity).magnitude;
+        return timeToIntercept;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if(direrc != null)
         {
-            return -1;
-        }
-
-        float twoA = 2 * a;
-        float sqrtDiscriminant = Mathf.Sqrt(discriminant);
-        float t1 = (-b + sqrtDiscriminant) / twoA;
-        float t2 = (-b - sqrtDiscriminant) / twoA;
-
-        if (t1 < 0 && t2 < 0)
-        {
-            return -1;
-        }
-
-        if (t1 < 0)
-        {
-            return t2;
-        }
-
-        if (t2 < 0)
-        {
-            return t1;
-        }
-
-        return Mathf.Min(t1, t2);
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(direrc, 2f);
+        } 
     }
 }
