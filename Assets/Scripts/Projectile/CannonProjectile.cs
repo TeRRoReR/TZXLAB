@@ -1,32 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CannonProjectile : Projectile , IProjectile, IMove
+public class CannonProjectile : Projectile , IProjectile
 {
-	private Rigidbody m_rb;
+	protected Rigidbody m_rb;
 	protected Vector3 m_direction;
 
     protected override void OnEnable()
 	{
 		base.OnEnable();
-		m_direction = Vector3.forward;
-	}
-	
-	protected override void Update()
-	{
-		base.Update();
-		Move();
-	}
-
-	public void Move()
-    {
-		var translation = m_direction * m_speed * Time.deltaTime;
-		transform.Translate (translation);
+		m_direction = transform.forward;
+		m_rb = GetComponent<Rigidbody>();
 	}
 
 	public void Init(GameObject target, float speed, int ID)
 	{
 		m_ID = ID;
 		m_speed = speed;
+		var m_direction = transform.forward;
+        m_rb.velocity = m_speed * m_direction; 
 	}
 }

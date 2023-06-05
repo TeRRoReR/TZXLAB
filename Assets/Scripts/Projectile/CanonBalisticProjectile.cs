@@ -2,20 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CanonBalisticProjectile : Projectile, IProjectile
+public class CanonBalisticProjectile : CannonProjectile, IProjectile
 {
-    private Rigidbody m_rb;
     protected override void OnEnable() 
     {
         base.OnEnable();
-        m_rb = GetComponent<Rigidbody>();
+        m_rb.useGravity = true;
     }
-
-	public void Init(GameObject target, float speed, int ID)
-	{
-        m_ID = ID;
-		m_speed = speed;  
-        var m_direction = transform.forward;
-        m_rb.velocity = m_speed * m_direction; 
-	}
 }
