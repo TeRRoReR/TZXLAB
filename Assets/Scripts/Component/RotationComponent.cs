@@ -27,7 +27,7 @@ public class RotationComponent : MonoBehaviour
         Vector3 targetPos = target.transform.position;
         Vector3 targetDir = targetPos - m_shootPoint.position;
         Vector3 targetVelocity = target.GetComponent<Rigidbody>().velocity;
-        m_timeToIntersection = GetTimeToIntersection(targetPos, targetVelocity);
+        m_timeToIntersection = GetTimeToIntersection(targetDir, targetVelocity);
         Vector3 aimPoint = targetPos + targetVelocity * m_timeToIntersection;
         m_point = aimPoint;
         Vector3 aimDirection = aimPoint - m_shootPoint.position;
@@ -78,8 +78,8 @@ public class RotationComponent : MonoBehaviour
     private float GetTimeToIntersection(Vector3 targetDir, Vector3 targetVelocity)
     {
         float a = Vector3.Dot(targetVelocity, targetVelocity) - m_speedProjectile * m_speedProjectile;
-        float b = 2f * Vector3.Dot(targetVelocity, targetDir - m_shootPoint.position);
-        float c = Vector3.Dot(targetDir - m_shootPoint.position, targetDir - m_shootPoint.position);
+        float b = 2f * Vector3.Dot(targetVelocity, targetDir);
+        float c = Vector3.Dot(targetDir, targetDir);
         float discriminant = b * b - 4 * a * c;
         if (discriminant < 0)
         {
