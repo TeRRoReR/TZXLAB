@@ -27,15 +27,7 @@ public class RotationComponent : MonoBehaviour
         Vector3 targetPos = target.transform.position;
         Vector3 targetDir = targetPos - m_shootPoint.position;
         Vector3 targetVelocity = target.GetComponent<Rigidbody>().velocity;
-        if(mode)
-        {
-            m_timeToIntersection = GetTimeToIntersection(targetDir);
-        }
-        else
-        {
-            m_timeToIntersection = GetTimeToIntersection(targetPos, targetVelocity);
-            Debug.Log(m_timeToIntersection);
-        }
+        m_timeToIntersection = GetTimeToIntersection(targetPos, targetVelocity);
         Vector3 aimPoint = targetPos + targetVelocity * m_timeToIntersection;
         m_point = aimPoint;
         Vector3 aimDirection = aimPoint - m_shootPoint.position;
@@ -83,25 +75,6 @@ public class RotationComponent : MonoBehaviour
         else return null;
     }
 
-    private float GetTimeToIntersection(Vector3 dir)
-    {
-        float y = dir.y;
-        dir.y = 0f;
-        float x = dir.magnitude;
-        float sSqr = m_speedProjectile * m_speedProjectile;
-        float underTheSqrRoot = (sSqr * sSqr) - m_gravity * (m_gravity * x * x + 2 * y * sSqr);
-        if (underTheSqrRoot >= 0f)
-        {
-            float root = Mathf.Sqrt(underTheSqrRoot);
-            float lowAngle = sSqr - root;
-            float timeToTarget = x / (m_speedProjectile * Mathf.Cos(Mathf.Atan2(lowAngle, m_gravity * x)));
-            return timeToTarget;
-        }
-        else
-        {
-            return 0f;
-        }
-    }
     private float GetTimeToIntersection(Vector3 targetDir, Vector3 targetVelocity)
     {
         float a = Vector3.Dot(targetVelocity, targetVelocity) - m_speedProjectile * m_speedProjectile;
