@@ -24,7 +24,8 @@ public class RotationComponent : MonoBehaviour
 
     public Vector3 CalculateLead(GameObject target, bool mode)
     {
-        Vector3 targetDir = target.transform.position - m_shootPoint.transform.position;
+        Vector3 targetPos = target.transform.position;
+        Vector3 targetDir = targetPos - m_shootPoint.position;
         Vector3 targetVelocity = target.GetComponent<Rigidbody>().velocity;
         if(mode)
         {
@@ -32,11 +33,12 @@ public class RotationComponent : MonoBehaviour
         }
         else
         {
-            m_timeToIntersection = GetTimeToIntersection(target.transform.position, targetVelocity);
+            m_timeToIntersection = GetTimeToIntersection(targetPos, targetVelocity);
+            Debug.Log(m_timeToIntersection);
         }
-        Vector3 aimPoint = target.transform.position + targetVelocity * m_timeToIntersection;
+        Vector3 aimPoint = targetPos + targetVelocity * m_timeToIntersection;
         m_point = aimPoint;
-        Vector3 aimDirection = aimPoint - m_shootPoint.transform.position;
+        Vector3 aimDirection = aimPoint - m_shootPoint.position;
         return aimDirection;
     }
     public void RotationBallisticMuzzle(Vector3 dir)
@@ -100,13 +102,43 @@ public class RotationComponent : MonoBehaviour
             return 0f;
         }
     }
-    private float GetTimeToIntersection(Vector3 targetPos, Vector3 targetVelocity)
+    private float GetTimeToIntersection(Vector3 targetDir, Vector3 targetVelocity)
     {
-        Vector3 projectileDirection = (targetPos - m_shootPoint.position).normalized;
-        Vector3 projectileVelocity = projectileDirection * m_speedProjectile;
-        Vector3 relativePosition = targetPos - m_shootPoint.position;
-        float timeToIntercept = relativePosition.magnitude / (projectileVelocity - targetVelocity).magnitude;
-        return timeToIntercept;
+        float a = Vector3.Dot(targetVelocity, targetVelocity) - m_speedProjectile * m_speedProjectile;
+        float b = 2f * Vector3.Dot(targetVelocity, targetDir - m_shootPoint.position);
+        float c = Vector3.Dot(targetDir - m_shootPoint.position, targetDir - m_shootPoint.position);
+        float discriminant = b * b - 4 * a * c;
+        if (discriminant < 0)
+        {
+            return -1;
+        }
+
+        float twoA = 2f * a;
+        float sqrtDiscriminant = Mathf.Sqrt(discriminant);
+        float t1 = (-b + sqrtDiscriminant) / twoA;
+        float t2 = (-b - sqrtDiscriminant) / twoA;
+
+        if (t1 < 0 && t2 < 0)
+        {
+            return -1;
+        }
+
+        if (t1 < 0)
+        {
+            return t2;
+        }
+
+        if (t2 < 0)
+        {
+            return t1;
+        }
+
+        return Mathf.Min(t1, t2);
+        // Vector3 projectileDirection = (targetPos - m_shootPoint.position).normalized;
+        // Vector3 projectileVelocity = projectileDirection * m_speedProjectile;
+        // Vector3 relativePosition = targetPos - m_shootPoint.position;
+        // float timeToIntercept = relativePosition.magnitude / (projectileVelocity - targetVelocity).magnitude;
+        // return timeToIntercept;
     }
 
     private void OnDrawGizmos()
