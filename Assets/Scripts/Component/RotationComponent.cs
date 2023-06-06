@@ -77,9 +77,9 @@ public class RotationComponent : MonoBehaviour
 
     private float GetTimeToIntersection(Vector3 targetDir, Vector3 targetVelocity)
     {
-        float a = Vector3.Dot(targetVelocity, targetVelocity) - m_speedProjectile * m_speedProjectile;
+        float a = targetVelocity.magnitude * targetVelocity.magnitude - m_speedProjectile * m_speedProjectile;
         float b = 2f * Vector3.Dot(targetVelocity, targetDir);
-        float c = Vector3.Dot(targetDir, targetDir);
+        float c = targetDir.magnitude * targetDir.magnitude;
         float discriminant = b * b - 4 * a * c;
         if (discriminant < 0)
         {
